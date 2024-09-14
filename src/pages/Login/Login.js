@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react'
 import { useAuthentication } from "../../hooks/useAuthentication";
 
@@ -46,7 +47,8 @@ const Login = () => {
     
   return (
     <div>
-        <h1>Entrar</h1>   
+        <h1>Bem vindo ao CatLovers !</h1>
+        <p>Por favor, faça login para continuar.</p>  
         <form onSubmit={handleSubmit}>
             <label>
                 <span>Email:</span>

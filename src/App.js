@@ -9,12 +9,13 @@ import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 
 //pages
-import Home from "./pages/Home/Home"
-import About from "./pages/About/About"
 import Login from "./pages/Login/Login"
+import Home from './pages/Home/Home';
+import About from "./pages/About/About"
 import Register from "./pages/Register/Register"
 import CreatePost from "./pages/CreatePost/CreatePost"
 import Profile from "./pages/Profile/Profile"
+import EditProfile from './pages/EditProfile/EditProfile';
 
 //context
 import { AuthProvider } from './context/AuthContext';
@@ -55,12 +56,13 @@ function App() {
         <Navbar/>
           <div className="container">
             <Routes>
-                <Route path="/" element={<Home/>} />
-                <Route path="/about" element={<About/>} />
-                <Route path="/login" element={!user ? <Login/>: <Navigate to="/"/>} /> {/*condicionais para impedir o acesso do usuário em casos de logado (user) ou não (!user)*/}
-                <Route path="/register" element={!user ? <Register/>: <Navigate to="/"/>} />
-                <Route path="/posts/create" element={user ? <CreatePost/> : <Navigate to="/"/>} />
-                <Route path="/profile" element={user ? <Profile/> : <Navigate to="/"/>} />
+                <Route path="/" element={!user ? <Login/> : <Navigate to="/home"/>} /> {/*condicionais para impedir o acesso do usuário em casos de logado (user) ou não (!user)*/}
+                <Route path="home" element={user ? <Home/> : <Navigate to="/"/>} />
+                <Route path="/about" element={<About/>} /> {/*pagina estática, todos tem acesso.*/}
+                <Route path="/register" element={!user ? <Register/>: <Navigate to="/home"/>} />
+                <Route path="/posts/create" element={user ? <CreatePost/> : <Navigate to="/home"/>} />
+                <Route path="/profile" element={user ? <Profile/> : <Navigate to="/home"/>} />
+                <Route path="/edit-profile" element={user ? <EditProfile/> : <Navigate to="/home"/>} />
             </Routes>
           </div>
           <Footer/>
