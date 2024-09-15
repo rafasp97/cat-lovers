@@ -112,9 +112,9 @@ const EditProfile = () => {
         </h1>
         <form onSubmit={changeImage}>
             <label>
-                Alterar foto:
                 <input 
                 type="text" 
+                placeholder="URL da imagem"
                 value={photoUrl}
                 onChange={(e) => setPhotoUrl(e.target.value)}  
                 />
@@ -123,9 +123,9 @@ const EditProfile = () => {
         </form>
         <form onSubmit={changeDisplayName}>
             <label>
-                Alterar nome:
                 <input 
-                type="text" 
+                type="text"
+                placeholder="Alterar nome" 
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}  
                 />
