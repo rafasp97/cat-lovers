@@ -54,6 +54,8 @@ const CreatePost = () => {
       setFormError("Por favor, preencha todos os campos!")
     }
 
+
+    //criação do post a partir dos valores de input
     insertDocument({
       title,
       image,

@@ -80,7 +80,7 @@ export const useAuthentication = () => {
         setError(false);
 
         try{
-            await signInWithEmailAndPassword(auth, data.email, data.password);
+            await signInWithEmailAndPassword(auth, data.email, data.password); //função do firebase q efetua o login com base nos parametros enviados;
         }
         catch (error){
             console.log(error.message);

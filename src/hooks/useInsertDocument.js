@@ -1,12 +1,20 @@
+
+
+//envio de posts para o firebase;
+
+
 import { useState, useEffect, useReducer } from "react";
 import {db} from '../firebase/config'
 import {collection, addDoc, Timestamp} from 'firebase/firestore'
 
+
+//define o estado inicial do useReducer dentro da função useInsertDocument
 const initialState = {
     loading: null,
     error: null
 };
 
+//estado e ações do hook:
 const insertReducer = (state, action) => {
     switch(action.type){
         case "LOADING":
@@ -33,8 +41,10 @@ export const useInsertDocument = (docCollection) => {
         }
     };
 
+    //funcionalidade de enviar o documento para o firebase
     const insertDocument = async(document) => {
 
+        //define o loading enquanto o documento é enviado na função assincrona insertDocument
         checkCancelBeforeDispatch({
             type: "LOADING",
         });
@@ -43,11 +53,14 @@ export const useInsertDocument = (docCollection) => {
             //criação do novo documento. recebe o document enviado pelo paramêtro da função, e o createAt retorna a data em que foi criado.
             const newDocument = {...document, createdAt: Timestamp.now()}
 
-            const insertedDocument = await addDoc(
+            const insertedDocument = await addDoc( //addDoc = função que adiciona um novo elemento a uma coleção.
+                //collection é uma função de acesso da firestore que recebe o banco de dados (exportado de firebase/config.js) e 'docCollection' é um nome aleatório utilizado para definir essa coleção de documentos. 
                 collection(db, docCollection),
+                //newDocument vem da constante que contem o document do 'createPost.js' + um parametro que marca a data.
                 newDocument
             )
 
+            //define o fim do carregamento e limpa o state de erro.
             checkCancelBeforeDispatch({
                 type: "INSERTED_DOC",
                 payload: insertedDocument
@@ -55,6 +68,7 @@ export const useInsertDocument = (docCollection) => {
 
         } catch (error) {
             
+            //dispara um erro com uma mensagem
             checkCancelBeforeDispatch({
                 type: "ERROR",
                 payload: error.message,
@@ -62,6 +76,7 @@ export const useInsertDocument = (docCollection) => {
         }
     }
 
+    //após o post ser criado, ou seja, ter sua função executada: impede a continuidade das ações para evitar atualizações dos states..
     useEffect(() => {
         return () => setCancelled(true);
     }, []);
