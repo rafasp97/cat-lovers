@@ -23,22 +23,13 @@ const NavBar = () => {
         Cat <span>Lovers</span>
       </NavLink>
       <ul>
-        <li>
-            <NavLink to="/home">
-              Home
-            </NavLink>
-        </li>
-        {!user && (
-          <>
-            <li>
-              <NavLink to="/register">
-                Cadastrar
-              </NavLink>
-            </li>
-          </>
-        )}
         {user && (
           <>
+            <li>
+              <NavLink to="/home">
+                Home
+              </NavLink>
+            </li>
             <li>
               <NavLink to="/posts/create">
                 Novo Post

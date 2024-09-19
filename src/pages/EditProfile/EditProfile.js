@@ -18,8 +18,6 @@ const EditProfile = () => {
     //armazena url da imagem
     const [photoUrl, setPhotoUrl] = useState('');
 
-    //armazena o novo displayName
-    const [displayName, setDisplayName] = useState('');
 
     //mensagens para o usuário
     const [success, setSuccess] = useState(null);
@@ -70,36 +68,6 @@ const EditProfile = () => {
         }
     }
 
-    const changeDisplayName = async (e) => {
-        e.preventDefault();
-
-        if(user && (displayName !== '')){
-            await updateProfile(user, {displayName: displayName,});
-
-            let successMessage = 'Nome atualizado com sucesso!';
-            setSuccess(successMessage);
-
-            //limpa a mensagem ápos 2 segundos.
-            setTimeout(() => {
-                setSuccess(null);
-            }, 2000);
-
-            //limpa o input
-            setDisplayName('');
-        }
-        else {
-            let errorMessage = 'Nenhum nome foi digitado... tente novamente!';
-            setError(errorMessage);
-
-            //limpa a mensagem ápos 2 segundos.
-            setTimeout(() => {
-                setError(null);
-            }, 2000);
-
-            //limpa o input
-            setDisplayName('');
-        }
-    }
 
   return (
 
@@ -112,22 +80,12 @@ const EditProfile = () => {
         </h1>
         <form onSubmit={changeImage}>
             <label>
+                <span>Altere sua foto de perfil:</span>
                 <input 
                 type="text" 
                 placeholder="URL da imagem"
                 value={photoUrl}
                 onChange={(e) => setPhotoUrl(e.target.value)}  
-                />
-            </label>
-            <button type='submit'>Atualizar</button>
-        </form>
-        <form onSubmit={changeDisplayName}>
-            <label>
-                <input 
-                type="text"
-                placeholder="Alterar nome" 
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}  
                 />
             </label>
             <button type='submit'>Atualizar</button>

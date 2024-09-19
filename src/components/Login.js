@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react'
-import { useAuthentication } from "../../hooks/useAuthentication";
+import { useAuthentication } from "../hooks/useAuthentication";
 
 const Login = () => {
     //elementos necessários para armazenar as infos do formulário

@@ -36,8 +36,7 @@ export const useAuthentication = () => {
             const {user} = await createUserWithEmailAndPassword(auth, data.email, data.password)
 
             //atualização do nome do usuário (lógica do próprio firebase)
-            await updateProfile(user, {displayName: data.displayName})
-
+            await updateProfile(user, {displayName: data.displayName, photoURL: data.photoURL})
 
             return user;
 

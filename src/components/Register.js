@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react'
-import { useAuthentication } from "../../hooks/useAuthentication";
+import { useAuthentication } from "../hooks/useAuthentication";
 
 const Register = () => {
     //elementos necessários para armazenar as infos do formulário
@@ -8,12 +8,25 @@ const Register = () => {
     const [email, setEmail] = useState(""); //email do usuário
     const [password, setPassword] = useState(""); //senha do usuário
     const [confirmPassword, setConfirmPassword] = useState(""); //confirmação de senha
+    const [photoURL, setPhotoURL] = useState(""); // URL da foto do usuário
 
     const [error, setError] = useState("");
 
     //elementos retornados de useAuthentication.js
     //'error: authError' => renomeia o error porque já tem outro error no arquivo. error => erro de front-end, authError => erro de autenticação.
     const {createUser, error: authError, loading} = useAuthentication();
+
+
+    //função para verificar se a URL leva a uma imagem válida
+    const isImageUrlValid = (url) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.src = url;
+            img.onload = () => resolve(true); // Se a imagem carregar com sucesso
+            img.onerror = () => resolve(false); // Se houver um erro ao carregar a imagem
+        });
+    };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,7 +37,8 @@ const Register = () => {
         const user = {
             displayName, //dica: o firebase é sensitive, os parametros enviados precisam ser exatamente com esse nome.
             email,
-            password
+            password,
+            photoURL
         }
 
         //VALIDAÇÃO DE FORMULÁRIO:
@@ -38,9 +52,18 @@ const Register = () => {
         //email: aceita apenas domínios com Yahoo, Outlook, iCloud e Gmail.
         const validateEmail = /^[a-zA-Z0-9._%+-]+@(gmail\.com|outlook\.com|yahoo\.com|icloud\.com|hotmail\.com|hotmail\.com\.br)$/;
         if(!validateEmail.test(email)){
-        setError("Esse email não é válido!");
-        return;
+            setError("Esse email não é válido!");
+            return;
         }
+        
+        const isValid = await isImageUrlValid(photoURL);
+
+        if (!isValid){
+            setError("Url inválida... tente novamente!");
+            return
+        }
+
+
 
         //envia o usuário para o useAuthentication, onde tem a função createUser.
         const res = await createUser(user);
@@ -108,6 +131,17 @@ const Register = () => {
                 placeholder='Confirme a sua senha'
                 value = {confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+            </label>
+            <label>
+                <span>URL da Foto:</span>
+                <input 
+                    type="text"
+                    name="photoURL"
+                    required
+                    placeholder='URL da sua foto'
+                    value={photoURL}
+                    onChange={(e) => setPhotoURL(e.target.value)}
                 />
             </label>
             {!loading && <button className="btn">Cadastrar</button>}

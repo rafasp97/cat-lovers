@@ -9,14 +9,14 @@ import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 
 //pages
-import Login from "./pages/Login/Login"
 import Home from './pages/Home/Home';
 import About from "./pages/About/About"
-import Register from "./pages/Register/Register"
 import CreatePost from "./pages/CreatePost/CreatePost"
 import Profile from "./pages/Profile/Profile"
 import EditProfile from './pages/EditProfile/EditProfile';
 import Search from './pages/Search/Search';
+import LoginOrRegister from './pages/LoginOrRegister/LoginOrRegister';
+import NotFound from './pages/NotFound/NotFound';
 
 
 //context
@@ -28,6 +28,8 @@ import { onAuthStateChanged } from 'firebase/auth'; //mapea se a autenticação 
 //hooks
 import { useState, useEffect } from 'react';
 import { useAuthentication } from './hooks/useAuthentication';
+
+
 function App() {
 
   const [user, setUser] = useState(undefined);
@@ -57,14 +59,14 @@ function App() {
         <Navbar/>
           <div className="container">
             <Routes>
-                <Route path="/" element={!user ? <Login/> : <Navigate to="/home"/>} /> {/*condicionais para impedir o acesso do usuário em casos de logado (user) ou não (!user)*/}
-                <Route path="home" element={user ? <Home/> : <Navigate to="/"/>} />
+                <Route path="/" element={!user ? <LoginOrRegister/> : <Navigate to="/home"/>} /> {/*condicionais para impedir o acesso do usuário em casos de logado (user) ou não (!user)*/}
+                <Route path="/home" element={user ? <Home/> : <Navigate to="/"/>} />
                 <Route path="/search" element={<Search/>} /> {/*componente de pesquisa */}
                 <Route path="/about" element={<About/>} /> {/*pagina estática, todos tem acesso.*/}
-                <Route path="/register" element={!user ? <Register/>: <Navigate to="/home"/>} />
                 <Route path="/posts/create" element={user ? <CreatePost/> : <Navigate to="/home"/>} />
                 <Route path="/profile" element={user ? <Profile/> : <Navigate to="/home"/>} />
                 <Route path="/edit-profile" element={user ? <EditProfile/> : <Navigate to="/home"/>} />
+                <Route path="*" element={<NotFound />} /> {/* Rota de erro para URLs não reconhecidas */}
             </Routes>
           </div>
           <Footer/>

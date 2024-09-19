@@ -62,7 +62,8 @@ const CreatePost = () => {
       body,
       tagsArray,
       uid: user.uid,
-      createdBy: user.displayName
+      createdBy: user.displayName,
+      userphotoURL: user.photoURL
     })
 
     //limpa a mensagem ápos 2 segundos.
